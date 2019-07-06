@@ -1,5 +1,10 @@
 package fractalsDrawing;
 
+/*************************************
+ * @author Anna Szafrañska (@AnnSzafr)
+ * @created 06 July 2019
+ *************************************/
+
 import javafx.scene.control.Slider;
 
 public class CreateSlider extends Slider{

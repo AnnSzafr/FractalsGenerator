@@ -1,5 +1,10 @@
 package fractalsDrawing;
 
+/*************************************
+ * @author Anna Szafrañska (@AnnSzafr)
+ * @created 06 July 2019
+ *************************************/
+
 import java.util.ArrayList;
 
 public class DragonPath {
