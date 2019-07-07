@@ -281,7 +281,8 @@ class CanvasDragon extends Canvas {
 	    double xmin, xmax, ymin, ymax;
 		int size = lengthOfDrawingLine;
 		
-		// ---- getting the dragon instruction ---- //
+		// ---- getting the binary list of dragon path ---- //
+		// ---- 0 - go to the right, 1 - go to the left ---- //
 		DragonPath dragonPath = new DragonPath();
 		dragonPath.buildDragonList(numberOfRecursions);
 		
