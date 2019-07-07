@@ -8,7 +8,6 @@ package fractalsDrawing;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.control.Label;
@@ -22,7 +21,6 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 
 import java.util.Random;
@@ -69,19 +67,19 @@ public class DragonCurve extends BorderPane{
 		setRight(settingsElements);
 	}
 	
+	// ---- setting the drawing panel ---- //
 	private final void dragonCanvas() {
 		holderCanvas = new BorderPane();
 			holderCanvas.setStyle("-fx-background-color: rgb(64,64,64);");
-			createBeginCards(numberOfDragons,lengthOfDrawingLine,numberOfRecursions);
+			redrawCanvas(numberOfDragons,lengthOfDrawingLine,numberOfRecursions);
 			// ---- we need to add canvas to holderCanvas as getChildren() to be resizable ----//
 			holderCanvas.getChildren().add(canvas);
 	}
 	
+	// ---- setting the settings panel ----//
 	private final void settingsPanel() {
 		settingsElements = new GridPane();
-		settingsElements.setAlignment(Pos.TOP_CENTER);
-		settingsElements.setPadding(new Insets(20,10,10,10));
-		settingsElements.setVgap(10);
+		settingsElements.setStyle("-fx-padding: 20,10,10,10; -fx-vgap: 10");
 		settingsElements.setMinWidth(4*width/3-width);
 		
 		Separator separator = new Separator();
@@ -92,16 +90,17 @@ public class DragonCurve extends BorderPane{
 		separator1.setMinWidth(settingsElements.getMinWidth());
 	
 		Label label = new Label("DRAGON SETTINGS");
-		label.setFont(new Font(18));
-		label.setStyle("-fx-text-fill: blue");
+		label.setStyle("-fx-text-fill: blue; -fx-font-size: 18");
 	
     	radioButtonChoice = new RadioButtonChoice("How many dragons?",responsesNumberOfDragons,beginChoice);
     	
+    	// ---- stylization of slider's label ---- //
+    	labelLineLength.setStyle("-fx-font-size: 14");
+    	labelRecursions.setStyle("-fx-font-size: 14");
+    	
+    	// ---- create sliders of begin view ---- //
     	sliderLinePane = new BorderPane();
     	sliderRecursionsPane = new BorderPane();
-    	
-    	labelLineLength.setStyle("-fx-font-size: 14; -fx-alignment: center");
-    	labelRecursions.setStyle("-fx-font-size: 14");
     	
     	sliderLineLength[0] = new CreateSlider(0,30,5,5,10f);
     	sliderLinePane.setCenter(sliderLineLength[0]);
@@ -111,6 +110,7 @@ public class DragonCurve extends BorderPane{
     	sliderRecursionsPane.setCenter(sliderRecursions[0]);
     	sliderListener(sliderRecursions[0],2);
 		
+    	// ---- create color buttons ---- //
 		colorChange.setMaxWidth(Double.MAX_VALUE);
 		colorChange.setStyle("-fx-background-radius: 20,20,20,20; -fx-font-size: 14; -fx-text-fill: darkblue");
 		colorReturn.setMaxWidth(Double.MAX_VALUE);
@@ -143,6 +143,21 @@ public class DragonCurve extends BorderPane{
 
 	}
 	
+	public void redrawCanvas(int numberOfDragons,int lengthOfDrawingLine,int numberOfRecursions) {
+		
+		canvas = new CanvasDragon();
+		canvas.setNumberOfDragons(numberOfDragons);
+		canvas.setLengthOfDrawingLine(lengthOfDrawingLine);
+		canvas.setNumberOfRecursions(numberOfRecursions);
+		for(int i=0; i<numberOfDragons; i++)
+			canvas.setColor(color[i],i);
+		
+		canvas.widthProperty().bind(holderCanvas.widthProperty());
+		canvas.heightProperty().bind(holderCanvas.heightProperty());
+		
+	}
+	
+	// ---- setting the actions ---- //
 	private void buttonAction(Button button) {
 		button.setOnAction(new EventHandler<ActionEvent>() {
 		    @Override 
@@ -170,10 +185,11 @@ public class DragonCurve extends BorderPane{
 	        			settingsElements.getChildren().remove(sliderLinePane);
 	        			settingsElements.getChildren().remove(sliderRecursionsPane);
 	        			
-	        			createBeginCards(i+1,lengthOfDrawingLine,numberOfRecursions);
+	        			redrawCanvas(i+1,lengthOfDrawingLine,numberOfRecursions);
 	        			holderCanvas.getChildren().clear();
 	        			holderCanvas.getChildren().add(canvas);
 	        			
+	        			// create sliders for next views ---- //
 	        			sliderLineLength[i] = new CreateSlider(0,30,5,5,10f);
 	        			sliderListener(sliderLineLength[i],1);
 	        			sliderLinePane.setCenter(sliderLineLength[i]);
@@ -204,19 +220,6 @@ public class DragonCurve extends BorderPane{
 	      });
 	}
 	
-	public void createBeginCards(int numberOfDragons,int lengthOfDrawingLine,int numberOfRecursions) {
-		
-		canvas = new CanvasDragon();
-		canvas.setNumberOfDragons(numberOfDragons);
-		canvas.setLengthOfDrawingLine(lengthOfDrawingLine);
-		canvas.setNumberOfRecursions(numberOfRecursions);
-		for(int i=0; i<numberOfDragons; i++)
-			canvas.setColor(color[i],i);
-		
-		canvas.widthProperty().bind(holderCanvas.widthProperty());
-		canvas.heightProperty().bind(holderCanvas.heightProperty());
-		
-	}
 }
 
 class CanvasDragon extends Canvas {
@@ -267,7 +270,6 @@ class CanvasDragon extends Canvas {
 				this.color[i] = colorNew;
 				draw();
 			}
-			
 		}
 	}
 	
