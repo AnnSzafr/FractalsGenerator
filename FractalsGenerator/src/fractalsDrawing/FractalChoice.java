@@ -14,16 +14,18 @@ public class FractalChoice {
 	
 	BorderPane mainPanel = new BorderPane();
 	BorderPane beginFractalPane;
-	double width, height;
+	int width, height;
+	
 	DragonCurve dragonCurve = new DragonCurve(width,height);
-	BorderPane[] fractalPanes = {dragonCurve};
+	//DragonIFSDraw dragonIFS = new DragonIFSDraw(width,height);
+	BorderPane[] fractalPanes = new BorderPane[2];
 	
 	static final String[] buttonName = {"Dragon","Dragon IFS","Fern IFS","Mandelbrot Set","Julia Set"};
 	static Button[] buttonFractal = new Button[buttonName.length];
 	
 	FractalChoice(double width, double height){
-		this.width = width;
-		this.height = height;
+		this.width = (int) width;
+		this.height = (int) height;
 		
 		beginFractalPane = new BorderPane();
 		
@@ -34,7 +36,8 @@ public class FractalChoice {
 			//buttonFractalChoice.setAlignment(Pos.CENTER);
 		
 			// ---- object dragonCurve is needed, because of initial view ---- // 
-			
+			 fractalPanes[0] = dragonCurve;
+			 fractalPanes[1] = new DragonIFSDraw(this.width,this.height);
 			//DragonIFSDrawNew dragonIFSDraw = new DragonIFSDrawNew(width,height);
 			//FernIFSDrawNew fernIFSDraw = new FernIFSDrawNew(width,height);
 			//MandelbrotDrawNew mandelbrotDraw = new MandelbrotDrawNew(width,height);
