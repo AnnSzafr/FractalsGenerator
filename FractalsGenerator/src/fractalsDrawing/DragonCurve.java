@@ -54,7 +54,7 @@ public class DragonCurve extends BorderPane{
 	Random rand = new Random();
 	
 	DragonCurve(double width1, double height1){
-		width = (int)(2*width1/3);
+		width = (int)(3*width1/4);
 		height = (int)(height1-100);
 		
 		// ---- drawing fractal panel ---- //
@@ -76,73 +76,6 @@ public class DragonCurve extends BorderPane{
 			holderCanvas.getChildren().add(canvas);
 	}
 	
-	// ---- setting the settings panel ----//
-	private final void settingsPanel() {
-		settingsElements = new GridPane();
-		settingsElements.setStyle("-fx-padding: 20,10,10,10; -fx-vgap: 10");
-		settingsElements.setMinWidth(4*width/3-width);
-		
-		Separator separator = new Separator();
-		separator.setValignment(VPos.CENTER);
-		separator.setMinWidth(settingsElements.getMinWidth());
-		Separator separator1 = new Separator();
-		separator1.setValignment(VPos.CENTER);
-		separator1.setMinWidth(settingsElements.getMinWidth());
-	
-		Label label = new Label("DRAGON SETTINGS");
-		label.setStyle("-fx-text-fill: blue; -fx-font-size: 18");
-	
-    	radioButtonChoice = new RadioButtonChoice("How many dragons?",responsesNumberOfDragons,beginChoice);
-    	
-    	// ---- stylization of slider's label ---- //
-    	labelLineLength.setStyle("-fx-font-size: 14");
-    	labelRecursions.setStyle("-fx-font-size: 14");
-    	
-    	// ---- create sliders of begin view ---- //
-    	sliderLinePane = new BorderPane();
-    	sliderRecursionsPane = new BorderPane();
-    	
-    	sliderLineLength[0] = new CreateSlider(0,30,5,5,10f);
-    	sliderLinePane.setCenter(sliderLineLength[0]);
-    	sliderListener(sliderLineLength[0],1);
-    	
-    	sliderRecursions[0] = new CreateSlider(0,20,5,5,5f);
-    	sliderRecursionsPane.setCenter(sliderRecursions[0]);
-    	sliderListener(sliderRecursions[0],2);
-		
-    	// ---- create color buttons ---- //
-		colorChange.setMaxWidth(Double.MAX_VALUE);
-		colorChange.setStyle("-fx-background-radius: 20,20,20,20; -fx-font-size: 14; -fx-text-fill: darkblue");
-		colorReturn.setMaxWidth(Double.MAX_VALUE);
-		colorReturn.setStyle("-fx-background-radius: 20,20,20,20; -fx-font-size: 14; -fx-text-fill: darkblue");
-
-		GridPane.setHalignment(label,HPos.CENTER);
-    	settingsElements.add(label,0,0);
-    	settingsElements.add(radioButtonChoice, 0, 1);
-    	GridPane.setHalignment(labelLineLength,HPos.CENTER);
-    	settingsElements.add(labelLineLength,0,3);
-    	settingsElements.add(sliderLinePane,0,4);
-    	GridPane.setHalignment(labelRecursions,HPos.CENTER);
-    	settingsElements.add(labelRecursions,0,6);
-    	settingsElements.add(sliderRecursionsPane,0,7);
-
-		settingsElements.addRow(2,separator);
-		settingsElements.addRow(5,separator1);
-
-		GridPane.setMargin(colorChange,new Insets(20,5,5,5));
-		settingsElements.add(colorChange,0,8);
-		GridPane.setMargin(colorReturn,new Insets(10,5,5,5));
-		settingsElements.add(colorReturn,0,9);
-		
-		// ---- configuration of radio button and buttons action ---- //	
-		for(int j=0; j<responsesNumberOfDragons.length; j++) {
-			radioButtonAction(radioButtonChoice.responseButtons[j]);
-		}
-		buttonAction(colorChange);
-		buttonAction(colorReturn);
-
-	}
-	
 	public void redrawCanvas(int numberOfDragons,int lengthOfDrawingLine,int numberOfRecursions) {
 		
 		canvas = new CanvasDragon();
@@ -155,6 +88,73 @@ public class DragonCurve extends BorderPane{
 		canvas.widthProperty().bind(holderCanvas.widthProperty());
 		canvas.heightProperty().bind(holderCanvas.heightProperty());
 		
+		}
+	
+	// ---- setting the settings panel ----//
+	private final void settingsPanel() {
+		settingsElements = new GridPane();
+			settingsElements.setStyle("-fx-padding: 20,10,10,10; -fx-vgap: 10");
+			settingsElements.setMinWidth(4*width/3-width);
+		
+			Separator separator = new Separator();
+			separator.setValignment(VPos.CENTER);
+			separator.setMinWidth(settingsElements.getMinWidth());
+			Separator separator1 = new Separator();
+			separator1.setValignment(VPos.CENTER);
+			separator1.setMinWidth(settingsElements.getMinWidth());
+	
+			Label mainLabel = new Label("HEIGHWAY DRAGON");
+			mainLabel.setStyle("-fx-text-fill: blue; -fx-font-size: 18");
+	
+			radioButtonChoice = new RadioButtonChoice("How many dragons?",responsesNumberOfDragons,beginChoice);
+    	
+			// ---- stylization of slider's label ---- //
+			labelLineLength.setStyle("-fx-font-size: 14");
+			labelRecursions.setStyle("-fx-font-size: 14");
+    	
+			// ---- create sliders of begin view ---- //
+			sliderLinePane = new BorderPane();
+			sliderRecursionsPane = new BorderPane();
+			
+			sliderLineLength[0] = new CreateSlider(0,30,5,5,10f);
+			sliderLinePane.setCenter(sliderLineLength[0]);
+			sliderListener(sliderLineLength[0],1);
+    	
+			sliderRecursions[0] = new CreateSlider(0,20,5,5,5f);
+			sliderRecursionsPane.setCenter(sliderRecursions[0]);
+			sliderListener(sliderRecursions[0],2);
+		
+			// ---- create color buttons ---- //
+			colorChange.setMaxWidth(Double.MAX_VALUE);
+			colorChange.setStyle("-fx-background-radius: 20,20,20,20; -fx-font-size: 14; -fx-text-fill: darkblue");
+			colorReturn.setMaxWidth(Double.MAX_VALUE);
+			colorReturn.setStyle("-fx-background-radius: 20,20,20,20; -fx-font-size: 14; -fx-text-fill: darkblue");
+
+			GridPane.setHalignment(mainLabel,HPos.CENTER);
+			settingsElements.add(mainLabel,0,0);
+			settingsElements.add(radioButtonChoice, 0, 1);
+			GridPane.setHalignment(labelLineLength,HPos.CENTER);
+			settingsElements.add(labelLineLength,0,3);
+			settingsElements.add(sliderLinePane,0,4);
+			GridPane.setHalignment(labelRecursions,HPos.CENTER);
+			settingsElements.add(labelRecursions,0,6);
+			settingsElements.add(sliderRecursionsPane,0,7);
+
+			settingsElements.addRow(2,separator);
+			settingsElements.addRow(5,separator1);
+
+			GridPane.setMargin(colorChange,new Insets(20,5,5,5));
+			settingsElements.add(colorChange,0,8);
+			GridPane.setMargin(colorReturn,new Insets(10,5,5,5));
+			settingsElements.add(colorReturn,0,9);
+		
+		// ---- configuration of radio button and buttons action ---- //	
+		for(int j=0; j<responsesNumberOfDragons.length; j++) {
+			radioButtonAction(radioButtonChoice.responseButtons[j]);
+		}
+		buttonAction(colorChange);
+		buttonAction(colorReturn);
+
 	}
 	
 	// ---- setting the actions ---- //
@@ -163,12 +163,12 @@ public class DragonCurve extends BorderPane{
 		    @Override 
 		    public void handle(ActionEvent event) {
 		    	if (event.getSource() == colorChange) {
-		    		for(int i=0; i<numberOfDragons; i++) {
+		    		for(int i=0; i<4; i++) {
 		    			canvas.setColor(Color.rgb(rand.nextInt(254),rand.nextInt(254),rand.nextInt(254)),i);
 		    		}
 		    	} else if (event.getSource() == colorReturn) {
 		    		Color[] color = {Color.rgb(255,50,255,1),Color.rgb(100,0,250,1),Color.rgb(250,0,100,1),Color.rgb(100,250,0,1)};
-		    		for(int i=0; i<numberOfDragons; i++)
+		    		for(int i=0; i<4; i++)
 		    			canvas.setColor(color[i],i);
 		    	}
 		    }
