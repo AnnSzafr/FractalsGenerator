@@ -13,6 +13,8 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
@@ -32,6 +34,7 @@ public class DragonIFSDraw extends BorderPane {
 	Slider slider;
 	TextField textProbabilityField;
 	GridPane settingsElements;
+	Alert alert = new Alert(AlertType.ERROR);
 	
 	Double[] xParam1 = {0.82, 0.28, -1.9};
 	Double[] yParam1 = { -0.3, 0.8, -0.1};
@@ -104,6 +107,7 @@ public class DragonIFSDraw extends BorderPane {
 				Label infoTextLabel = new Label("Set probability for F1:");
 				infoTextLabel.setStyle("-fx-font-size: 14");
 				
+				
 				textProbabilityField = new TextField("0.15");
 				textProbabilityField.setMaxWidth(60);
 				textFieldListener(textProbabilityField);
@@ -113,7 +117,7 @@ public class DragonIFSDraw extends BorderPane {
 				systemInfoLabel1 = new SystemInfoLabel(xParam1, yParam1, "F1 = ",textProbabilityField.getText());
 				systemInfoLabel2 = new SystemInfoLabel(xParam2, yParam2, "F2 = ",Double.toString(1.0-Double.parseDouble(textProbabilityField.getText())));
 			
-			
+			// ---- create buttons ---- //
 			goldenDragon.setMaxWidth(Double.MAX_VALUE);
 			goldenDragon.setStyle("-fx-background-radius: 20,20,20,20; -fx-font-size: 14; -fx-text-fill: darkblue");
 			randomParam.setMaxWidth(Double.MAX_VALUE);
@@ -138,19 +142,26 @@ public class DragonIFSDraw extends BorderPane {
 			GridPane.setMargin(beginParam,new Insets(10,5,5,5));
 			settingsElements.add(beginParam, 0, 8);
 	}
+	
+	// ---- setting the actions ---- //
 	private void textFieldListener(TextField text) {
 		text.textProperty().addListener((observable, oldValue, newValue) -> {
-			
-			redrawImage((int)slider.getValue(),Double.parseDouble(newValue));
-			
-			settingsElements.getChildren().remove(systemInfoLabel1);
-			settingsElements.getChildren().remove(systemInfoLabel2);
-			systemInfoLabel1 = new SystemInfoLabel(xParam1, yParam1, "F1 = ",newValue);
-			systemInfoLabel2 = new SystemInfoLabel(xParam2, yParam2, "F2 = ",Double.toString(1.0-Double.parseDouble(newValue)));
-			settingsElements.add(systemInfoLabel1, 0, 4);
-			settingsElements.add(systemInfoLabel2, 0, 5);
+			try {
+				redrawImage((int)slider.getValue(),Double.parseDouble(newValue));
+				settingsElements.getChildren().remove(systemInfoLabel1);
+				settingsElements.getChildren().remove(systemInfoLabel2);
+				systemInfoLabel1 = new SystemInfoLabel(xParam1, yParam1, "F1 = ",newValue);
+				systemInfoLabel2 = new SystemInfoLabel(xParam2, yParam2, "F2 = ",Double.toString(1.0-Double.parseDouble(newValue)));
+				settingsElements.add(systemInfoLabel1, 0, 4);
+				settingsElements.add(systemInfoLabel2, 0, 5);
+			}catch (NumberFormatException nfe) {
+				alert.setTitle("Wrong number format");
+				alert.setHeaderText("Put apropriate number format: "+nfe.getMessage());
+				alert.showAndWait();
+			}
 		});
 	}
+	
 	private void sliderListener(Slider slider) {
 		slider.valueProperty().addListener(new ChangeListener<Number>() {
 	         @Override
